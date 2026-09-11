@@ -103,6 +103,71 @@ sort_by_date(operations, False)
 ```
 
 
+## Модуль generators
+
+Модуль `generators` содержит функции-генераторы для работы с данными банковских транзакций.
+
+### `filter_by_currency`
+
+Функция принимает список транзакций и код валюты и возвращает итератор с транзакциями, выполненными в указанной валюте.
+
+Пример использования:
+
+```python
+from src.generators import filter_by_currency
+
+usd_transactions = filter_by_currency(transactions, "USD")
+
+for transaction in usd_transactions:
+    print(transaction)
+```
+
+### `transaction_descriptions`
+
+Функция-генератор принимает список транзакций и поочередно возвращает описание каждой операции.
+
+Пример использования:
+
+```python
+from src.generators import transaction_descriptions
+
+descriptions = transaction_descriptions(transactions)
+
+for description in descriptions:
+    print(description)
+```
+
+Пример результата:
+
+```text
+Перевод организации
+Перевод со счета на счет
+Перевод с карты на карту
+```
+
+### `card_number_generator`
+
+Генератор принимает начальное и конечное значения диапазона и поочередно генерирует номера банковских карт в формате `XXXX XXXX XXXX XXXX`.
+
+Пример использования:
+
+```python
+from src.generators import card_number_generator
+
+for card_number in card_number_generator(1, 4):
+    print(card_number)
+```
+
+Результат:
+
+```text
+0000 0000 0000 0001
+0000 0000 0000 0002
+0000 0000 0000 0003
+```
+
+
+
 ## Тестирование
 
 В проекте используется библиотека `pytest`.
