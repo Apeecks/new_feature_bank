@@ -23,12 +23,12 @@ def log(filename: Any = None) -> Any:
                 logging.basicConfig(level=logging.INFO, format="%(levelname)s -%(message)s")
 
             try:
-                logger.info(f"Начало работы функции {func.__name__}")
+                logger.info(f"Start {func.__name__}")
                 result = func(*args, **kwargs)
-                logger.info(f"Завершение функции {func.__name__}, с результатом {result}")
+                logger.info(f"{func.__name__} ok")
                 return result
             except Exception as e:
-                logger.info(f"Функция {func.__name__} закончила работу с ошибкой: {e}. Args: {args}, kwargs: {kwargs}")
+                logger.info(f"{func.__name__} error: {e}. Inputs: {args}, {kwargs}")
 
         return wrapper
 
