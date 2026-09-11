@@ -1,22 +1,33 @@
 import json
+import logging
 import re
 from collections import Counter
 from typing import Any
+
+logger = logging.getLogger("utils")
+logger.setLevel(logging.DEBUG)
+file_handler = logging.FileHandler("logs/utils.log", mode="w")
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s: %(message)s")
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
 
 
 def path_to_file_json(path: str) -> Any:
     """Функция принимающая путь до файла, возвращает список"""
     try:
         try:
+            logger.info("Преобразование json объекта в объект python")
             with open(path) as f:
                 operation = json.load(f)
                 if not isinstance(operation, list):
                     return []
                 return operation
-        except json.decoder.JSONDecodeError:
+        except json.decoder.JSONDecodeError as ex:
+            logger.error(f"Обработка ошибки {ex}")
             print("Файл не формата json или пуст")
             return []
-    except FileNotFoundError:
+    except FileNotFoundError as ex:
+        logger.error(f"Обработка ошибки {ex}")
         print("Файл не найден")
         return []
 
