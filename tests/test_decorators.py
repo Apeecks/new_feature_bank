@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 
 from src.decorators import log
@@ -8,20 +9,24 @@ def division(a: int, b: int) -> float:
     return a / b
 
 
-@log("log_test.txt")
-def add(a: int, b: int) -> float:
-    return a + b
+def test_log(caplog: Any) -> None:
+    """Проверка логирования успешного выполнения функции."""
+    caplog.set_level(logging.INFO)
+
+    result = division(4, 2)
+
+    assert result == 2.0
+    assert "Начало работы функции division" in caplog.text
+    assert "Завершение функции division, с результатом 2.0" in caplog.text
 
 
-def test_log(capsys: Any) -> Any:
-    division(4, 2)
-    out, err = capsys.readouterr()
-    assert out == ""
-    assert err == ""
+def test_log_err(caplog: Any) -> None:
+    """Проверка логирования ошибки функции."""
+    caplog.set_level(logging.INFO)
 
-
-def test_log_err(capsys: Any) -> Any:
     division(4, 0)
-    out, err = capsys.readouterr()
-    assert out == ""
-    assert err == ""
+
+    assert "Функция division закончила работу с ошибкой" in caplog.text
+    assert "division by zero" in caplog.text
+    assert "Args: (4, 0)" in caplog.text
+    assert "kwargs: {}" in caplog.text
