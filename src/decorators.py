@@ -28,7 +28,7 @@ def log(filename: Any = None) -> Any:
                 logger.info(f"{func.__name__} ok")
                 return result
             except Exception as e:
-                logger.info(f"{func.__name__} error: {e}. Inputs: {args}, {kwargs}")
+                logger.info(f"{func.__name__} error: {type(e).__name__}. Inputs: {args}, {kwargs}")
 
         return wrapper
 
