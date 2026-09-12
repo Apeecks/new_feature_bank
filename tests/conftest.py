@@ -147,3 +147,45 @@ def sort_usd_two_filter_by_currency() -> dict:
         "from": "Счет 19708645243227258542",
         "to": "Счет 75651667383060284188",
     }
+
+
+@pytest.fixture
+def test_list_func_amount_transaction() -> list:
+    """Транзакция из operations.json"""
+    return [
+        {
+            "id": 41428829,
+            "state": "EXECUTED",
+            "date": "2019-07-03T18:35:29.512364",
+            "operationAmount": {"amount": "8000", "currency": {"name": "USD", "code": "USD"}},
+        },
+        {
+            "id": 41428829,
+            "state": "EXECUTED",
+            "date": "2019-07-03T18:35:29.512364",
+            "operationAmount": {"amount": "8000", "currency": {"name": "USD", "code": "USD"}},
+        },
+    ]
+
+
+@pytest.fixture
+def test_utils_list_dict() -> list:
+    """Тест-список словарей для функции search_description"""
+    return [
+        {"description": "1"},
+        {"description": "2"},
+        {"description": "3"},
+        {"description": "1"},
+        {"description": "2"},
+        {"description": "3"},
+        {"description": "1"},
+        {"description": "2"},
+        {"description": "3"},
+        {"description": "1"},
+        {"description": "2"},
+        {"description": "1"},
+        {"description": "2"},
+        {"description": "1"},
+        {"description": "1"},
+        {"description": "1"},
+    ]
