@@ -16,8 +16,8 @@ def test_log(caplog: Any) -> None:
     result = division(4, 2)
 
     assert result == 2.0
-    assert "Start division" in caplog.text
-    assert "division ok" in caplog.text
+    assert "Начало работы функции division" in caplog.text
+    assert "Завершение функции division, с результатом 2.0" in caplog.text
 
 
 def test_log_err(caplog: Any) -> None:
@@ -26,5 +26,7 @@ def test_log_err(caplog: Any) -> None:
 
     division(4, 0)
 
-    assert "division error: ZeroDivisionError" in caplog.text
-    assert "Inputs: (4, 0), {}" in caplog.text
+    assert "Функция division закончила работу с ошибкой" in caplog.text
+    assert "division by zero" in caplog.text
+    assert "Args: (4, 0)" in caplog.text
+    assert "kwargs: {}" in caplog.text
