@@ -270,6 +270,9 @@ transactions = path_to_file_json("data/operations.json")
 print(transactions)
 ```
 
+- Функция process_bank_search - Функция поиска в списке словарей по заданной информации
+- Функция process_bank_operations - Возвращает кол-во всех описаний операций.
+
 ### Модуль `external_api`
 
 В модуле `src/external_api.py` реализована функция `exchange`, которая принимает словарь с данными о транзакции и возвращает сумму операции в рублях в формате `float`.
