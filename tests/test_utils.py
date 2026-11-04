@@ -3,7 +3,7 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from src.utils import path_to_file_json, search_description, search_str
+from src.utils import path_to_file_json, process_bank_operations, process_bank_search
 
 
 def test_error_path_to_file(capsys: Any) -> Any:
@@ -36,18 +36,62 @@ def test_path_to_file_not_list() -> None:
 @pytest.mark.parametrize(
     "list_dict, str_search, result",
     [
-        ([{"three": "6"}, {"one": "1"}, {"two": "2"}, {"three": "3"}], "three", [{"three": "6"}, {"three": "3"}]),
-        ([{"twomath": "10"}, {"two": "3"}, {}], "two", [{"twomath": "10"}, {"two": "3"}]),
-        ([{}], "none", []),
-        ("two", "none", []),
+        (
+            [
+                {"description": "Перевод организации"},
+                {"description": "Открытие вклада"},
+                {"description": "Перевод с карты на карту"},
+            ],
+            "Перевод",
+            [
+                {"description": "Перевод организации"},
+                {"description": "Перевод с карты на карту"},
+            ],
+        ),
+        (
+            [
+                {"description": "Открытие вклада"},
+                {"description": "Перевод организации"},
+            ],
+            "вклад",
+            [{"description": "Открытие вклада"}],
+        ),
+        (
+            [
+                {"description": "Перевод организации"},
+            ],
+            "перевод",
+            [{"description": "Перевод организации"}],
+        ),
+        (
+            [
+                {"description": "Открытие вклада"},
+            ],
+            "Кредит",
+            [],
+        ),
+        (
+            [
+                {"state": "EXECUTED"},
+                {"description": "Открытие вклада", "state": "CANCELED"},
+            ],
+            "EXECUTED",
+            [],
+        ),
+        (
+            [],
+            "Перевод",
+            [],
+        ),
     ],
 )
-def test_search_str(list_dict: list, str_search: str, result: dict) -> Any:
-    """Проверка функции search_str"""
-    assert search_str(list_dict, str_search) == result
+def test_process_bank_search(list_dict: list, str_search: str, result: list) -> None:
+    """Проверка поиска транзакций по описанию."""
+    assert process_bank_search(list_dict, str_search) == result
 
 
-def test_search_description(test_utils_list_dict: list) -> Any:
-    """Проверка функции search_description"""
-    assert search_description(test_utils_list_dict, ["1", "2"]) == {"1": 8, "2": 5}
-    assert search_description(test_utils_list_dict, ["1"]) == {"1": 8}
+def test_process_bank_operations(test_utils_list_dict: list) -> None:
+    """Проверка подсчета количества операций по категориям."""
+    assert process_bank_operations(test_utils_list_dict, ["1", "2"]) == {"1": 8, "2": 5}
+
+    assert process_bank_operations(test_utils_list_dict, ["1"]) == {"1": 8}

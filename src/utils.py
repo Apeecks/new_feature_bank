@@ -32,17 +32,17 @@ def path_to_file_json(path: str) -> Any:
         return []
 
 
-def search_str(list_dict: list, search_string: str) -> list:
+def process_bank_search(list_dict: list, search_string: str) -> list:
     """Функция поиска в списке словарей по заданной информации"""
     result = []
     for dict_ in list_dict:
-        dict_check = re.search(search_string, str(dict_), flags=re.IGNORECASE)
+        dict_check = re.search(search_string, str(dict_.get("description", "")), flags=re.IGNORECASE)
         if dict_check is not None:
             result.append(dict_)
     return result
 
 
-def search_description(list_dict: list, user_list_description: list) -> dict:
+def process_bank_operations(list_dict: list, user_list_description: list) -> dict:
     """Возвращает кол-во всех описаний операций"""
     list_description = []
     result = {}
